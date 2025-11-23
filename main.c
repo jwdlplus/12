@@ -67,6 +67,20 @@ void initPlayer(void)
      }
 }
 
+int gameEnd(void)
+{
+    int i;
+    int flag_end = 1;
+    
+    for (i=0;i<N_PLAYER;i++)
+    {
+        if (player_status[i] == PLAYERSTATUS_LIVE)
+           flag_end = 0;
+    }
+    
+    return flag_end;
+}
+
 void checkDie(void)
 {
      int i;
@@ -90,7 +104,6 @@ int rolldie(void)
 
 int main(int argc, char *argv[])
 {
-  int cnt;
   int turn;
   int dum;
   
@@ -109,7 +122,6 @@ int main(int argc, char *argv[])
   board_initBoard();
   initPlayer();
   //step 2. turn play (do-while)
-  cnt = 0;
   turn = 0;
   do {
       int die_result;
@@ -160,9 +172,8 @@ int main(int argc, char *argv[])
                
                checkDie();
       }
-      cnt++;
       
-  } while(cnt < 5); //game end condition
+  } while(gameEnd() == 0); //game end condition
   //step3. game end(winner printing)
   
   //ending
