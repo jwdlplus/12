@@ -67,6 +67,21 @@ void initPlayer(void)
      }
 }
 
+void checkDie(void)
+{
+     int i;
+     
+     for (i=0;i<N_PLAYER;i++)
+     {
+         if (board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK)
+         {
+            player_status[i] = PLAYERSTATUS_DIE;
+            printf("So Sad! %s died at position %i\n",
+                       player_name[i], player_position[i]);
+         }
+     }
+}
+
 int rolldie(void)
 {
     return rand()%MAX_DIE + 1;
@@ -138,6 +153,13 @@ int main(int argc, char *argv[])
       turn = (turn + 1)%N_PLAYER;
       
       //shark move
+      if (turn == 0)
+      {
+               int shark_pos = board_stepShark();
+               printf("Shark moved to %i\n", shark_pos);
+               
+               checkDie();
+      }
       cnt++;
       
   } while(cnt < 5); //game end condition
